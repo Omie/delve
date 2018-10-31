@@ -16,13 +16,13 @@ import (
 	"unicode"
 	"unicode/utf8"
 
-	"github.com/derekparker/delve/pkg/logflags"
-	"github.com/derekparker/delve/pkg/version"
-	"github.com/derekparker/delve/service"
-	"github.com/derekparker/delve/service/api"
-	"github.com/derekparker/delve/service/debugger"
-	"github.com/derekparker/delve/service/rpc1"
-	"github.com/derekparker/delve/service/rpc2"
+	"github.com/omie/delve/pkg/logflags"
+	"github.com/omie/delve/pkg/version"
+	"github.com/omie/delve/service"
+	"github.com/omie/delve/service/api"
+	"github.com/omie/delve/service/debugger"
+	"github.com/omie/delve/service/rpc1"
+	"github.com/omie/delve/service/rpc2"
 	"github.com/sirupsen/logrus"
 )
 

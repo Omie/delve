@@ -15,9 +15,9 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/derekparker/delve/pkg/goversion"
-	"github.com/derekparker/delve/pkg/proc"
-	"github.com/derekparker/delve/pkg/proc/test"
+	"github.com/omie/delve/pkg/goversion"
+	"github.com/omie/delve/pkg/proc"
+	"github.com/omie/delve/pkg/proc/test"
 )
 
 var buildMode string

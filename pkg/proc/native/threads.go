@@ -3,7 +3,7 @@ package native
 import (
 	"fmt"
 
-	"github.com/derekparker/delve/pkg/proc"
+	"github.com/omie/delve/pkg/proc"
 )
 
 // Thread represents a single thread in the traced process

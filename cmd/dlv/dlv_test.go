@@ -14,10 +14,10 @@ import (
 	"testing"
 	"time"
 
-	"github.com/derekparker/delve/cmd/dlv/cmds"
-	protest "github.com/derekparker/delve/pkg/proc/test"
-	"github.com/derekparker/delve/pkg/terminal"
-	"github.com/derekparker/delve/service/rpc2"
+	"github.com/omie/delve/cmd/dlv/cmds"
+	protest "github.com/omie/delve/pkg/proc/test"
+	"github.com/omie/delve/pkg/terminal"
+	"github.com/omie/delve/service/rpc2"
 	"github.com/spf13/cobra/doc"
 )
 
@@ -156,7 +156,7 @@ func testOutput(t *testing.T, dlvbin, output string, delveCmds []string) (stdout
 		if strings.ToLower(os.Getenv("APPVEYOR")) != "true" {
 			// Sometimes delve on Appveyor can't remove the built binary before
 			// exiting and gets an "Access is denied" error when trying.
-			// See: https://ci.appveyor.com/project/derekparker/delve/build/1527
+			// See: https://ci.appveyor.com/project/omie/delve/build/1527
 			t.Errorf("running %q: file %v was not deleted\nstdout is %q, stderr is %q", delveCmds, debugbin, stdout, stderr)
 		}
 		return
@@ -175,9 +175,9 @@ func getDlvBin(t *testing.T) (string, string) {
 	}
 
 	dlvbin := filepath.Join(tmpdir, "dlv.exe")
-	out, err := exec.Command("go", "build", "-o", dlvbin, "github.com/derekparker/delve/cmd/dlv").CombinedOutput()
+	out, err := exec.Command("go", "build", "-o", dlvbin, "github.com/omie/delve/cmd/dlv").CombinedOutput()
 	if err != nil {
-		t.Fatalf("go build -o %v github.com/derekparker/delve/cmd/dlv: %v\n%s", dlvbin, err, string(out))
+		t.Fatalf("go build -o %v github.com/omie/delve/cmd/dlv: %v\n%s", dlvbin, err, string(out))
 	}
 
 	return dlvbin, tmpdir
@@ -201,7 +201,7 @@ func TestOutput(t *testing.T) {
 }
 
 func checkAutogenDoc(t *testing.T, filename, gencommand string, generated []byte) {
-	saved := slurpFile(t, os.ExpandEnv(fmt.Sprintf("$GOPATH/src/github.com/derekparker/delve/%s", filename)))
+	saved := slurpFile(t, os.ExpandEnv(fmt.Sprintf("$GOPATH/src/github.com/omie/delve/%s", filename)))
 
 	if len(saved) != len(generated) {
 		t.Fatalf("%s: needs to be regenerated; run %s", filename, gencommand)

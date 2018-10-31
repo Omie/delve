@@ -3,7 +3,7 @@ package proc
 import (
 	"errors"
 
-	"github.com/derekparker/delve/pkg/dwarf/op"
+	"github.com/omie/delve/pkg/dwarf/op"
 )
 
 const cacheEnabled = true

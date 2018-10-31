@@ -4,10 +4,10 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/derekparker/delve/pkg/proc"
-	"github.com/derekparker/delve/service"
-	"github.com/derekparker/delve/service/api"
-	"github.com/derekparker/delve/service/debugger"
+	"github.com/omie/delve/pkg/proc"
+	"github.com/omie/delve/service"
+	"github.com/omie/delve/service/api"
+	"github.com/omie/delve/service/debugger"
 )
 
 var defaultLoadConfig = proc.LoadConfig{true, 1, 64, 64, -1}

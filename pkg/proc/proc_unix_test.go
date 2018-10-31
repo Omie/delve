@@ -9,8 +9,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/derekparker/delve/pkg/proc"
-	protest "github.com/derekparker/delve/pkg/proc/test"
+	"github.com/omie/delve/pkg/proc"
+	protest "github.com/omie/delve/pkg/proc/test"
 )
 
 type errIssue419 struct {

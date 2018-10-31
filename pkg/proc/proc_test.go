@@ -19,13 +19,13 @@ import (
 	"testing"
 	"time"
 
-	"github.com/derekparker/delve/pkg/dwarf/frame"
-	"github.com/derekparker/delve/pkg/goversion"
-	"github.com/derekparker/delve/pkg/logflags"
-	"github.com/derekparker/delve/pkg/proc"
-	"github.com/derekparker/delve/pkg/proc/gdbserial"
-	"github.com/derekparker/delve/pkg/proc/native"
-	protest "github.com/derekparker/delve/pkg/proc/test"
+	"github.com/omie/delve/pkg/dwarf/frame"
+	"github.com/omie/delve/pkg/goversion"
+	"github.com/omie/delve/pkg/logflags"
+	"github.com/omie/delve/pkg/proc"
+	"github.com/omie/delve/pkg/proc/gdbserial"
+	"github.com/omie/delve/pkg/proc/native"
+	protest "github.com/omie/delve/pkg/proc/test"
 )
 
 var normalLoadConfig = proc.LoadConfig{true, 1, 64, 64, -1}

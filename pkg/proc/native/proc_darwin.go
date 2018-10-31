@@ -18,7 +18,7 @@ import (
 
 	sys "golang.org/x/sys/unix"
 
-	"github.com/derekparker/delve/pkg/proc"
+	"github.com/omie/delve/pkg/proc"
 )
 
 // OSProcessDetails holds Darwin specific information.

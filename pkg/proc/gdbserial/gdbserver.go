@@ -80,9 +80,9 @@ import (
 
 	"golang.org/x/arch/x86/x86asm"
 
-	"github.com/derekparker/delve/pkg/logflags"
-	"github.com/derekparker/delve/pkg/proc"
-	"github.com/derekparker/delve/pkg/proc/linutil"
+	"github.com/omie/delve/pkg/logflags"
+	"github.com/omie/delve/pkg/proc"
+	"github.com/omie/delve/pkg/proc/linutil"
 	"github.com/mattn/go-isatty"
 	"github.com/sirupsen/logrus"
 )

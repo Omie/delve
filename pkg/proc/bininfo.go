@@ -17,12 +17,12 @@ import (
 	"sync"
 	"time"
 
-	"github.com/derekparker/delve/pkg/dwarf/frame"
-	"github.com/derekparker/delve/pkg/dwarf/godwarf"
-	"github.com/derekparker/delve/pkg/dwarf/line"
-	"github.com/derekparker/delve/pkg/dwarf/op"
-	"github.com/derekparker/delve/pkg/dwarf/reader"
-	"github.com/derekparker/delve/pkg/goversion"
+	"github.com/omie/delve/pkg/dwarf/frame"
+	"github.com/omie/delve/pkg/dwarf/godwarf"
+	"github.com/omie/delve/pkg/dwarf/line"
+	"github.com/omie/delve/pkg/dwarf/op"
+	"github.com/omie/delve/pkg/dwarf/reader"
+	"github.com/omie/delve/pkg/goversion"
 )
 
 // BinaryInfo holds information on the binary being executed.

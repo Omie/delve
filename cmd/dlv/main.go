@@ -3,8 +3,8 @@ package main
 import (
 	"os"
 
-	"github.com/derekparker/delve/cmd/dlv/cmds"
-	"github.com/derekparker/delve/pkg/version"
+	"github.com/omie/delve/cmd/dlv/cmds"
+	"github.com/omie/delve/pkg/version"
 	"github.com/sirupsen/logrus"
 )
 

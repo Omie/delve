@@ -14,9 +14,9 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/derekparker/delve/pkg/dwarf/godwarf"
-	"github.com/derekparker/delve/pkg/dwarf/reader"
-	"github.com/derekparker/delve/pkg/goversion"
+	"github.com/omie/delve/pkg/dwarf/godwarf"
+	"github.com/omie/delve/pkg/dwarf/reader"
+	"github.com/omie/delve/pkg/goversion"
 )
 
 var errOperationOnSpecialFloat = errors.New("operations on non-finite floats not implemented")

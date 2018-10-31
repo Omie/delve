@@ -8,7 +8,7 @@ import (
 	"strings"
 	"text/tabwriter"
 
-	"github.com/derekparker/delve/pkg/config"
+	"github.com/omie/delve/pkg/config"
 )
 
 func configureCmd(t *Term, ctx callContext, args string) error {

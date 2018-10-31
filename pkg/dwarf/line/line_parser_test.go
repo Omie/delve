@@ -14,7 +14,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/derekparker/delve/pkg/dwarf/godwarf"
+	"github.com/omie/delve/pkg/dwarf/godwarf"
 	"github.com/pkg/profile"
 )
 

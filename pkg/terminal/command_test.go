@@ -15,13 +15,13 @@ import (
 	"testing"
 	"time"
 
-	"github.com/derekparker/delve/pkg/config"
-	"github.com/derekparker/delve/pkg/goversion"
-	"github.com/derekparker/delve/pkg/proc/test"
-	"github.com/derekparker/delve/service"
-	"github.com/derekparker/delve/service/api"
-	"github.com/derekparker/delve/service/rpc2"
-	"github.com/derekparker/delve/service/rpccommon"
+	"github.com/omie/delve/pkg/config"
+	"github.com/omie/delve/pkg/goversion"
+	"github.com/omie/delve/pkg/proc/test"
+	"github.com/omie/delve/service"
+	"github.com/omie/delve/service/api"
+	"github.com/omie/delve/service/rpc2"
+	"github.com/omie/delve/service/rpccommon"
 )
 
 var testBackend, buildMode string

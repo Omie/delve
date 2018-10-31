@@ -8,8 +8,8 @@ import (
 	"io"
 	"os"
 
-	"github.com/derekparker/delve/pkg/proc"
-	"github.com/derekparker/delve/pkg/proc/linutil"
+	"github.com/omie/delve/pkg/proc"
+	"github.com/omie/delve/pkg/proc/linutil"
 )
 
 // Copied from golang.org/x/sys/unix.Timeval since it's not available on all

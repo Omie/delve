@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/derekparker/delve/service"
-	"github.com/derekparker/delve/service/api"
-	"github.com/derekparker/delve/service/debugger"
+	"github.com/omie/delve/service"
+	"github.com/omie/delve/service/api"
+	"github.com/omie/delve/service/debugger"
 )
 
 type RPCServer struct {
@@ -423,7 +423,7 @@ type EvalOut struct {
 
 // EvalVariable returns a variable in the specified context.
 //
-// See https://github.com/derekparker/delve/wiki/Expressions for
+// See https://github.com/omie/delve/wiki/Expressions for
 // a description of acceptable values of arg.Expr.
 func (s *RPCServer) Eval(arg EvalIn, out *EvalOut) error {
 	cfg := arg.Cfg

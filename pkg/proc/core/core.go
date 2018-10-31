@@ -7,8 +7,8 @@ import (
 	"io"
 	"sync"
 
-	"github.com/derekparker/delve/pkg/proc"
-	"github.com/derekparker/delve/pkg/proc/linutil"
+	"github.com/omie/delve/pkg/proc"
+	"github.com/omie/delve/pkg/proc/linutil"
 )
 
 // A SplicedMemory represents a memory space formed from multiple regions,

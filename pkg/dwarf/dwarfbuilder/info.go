@@ -5,7 +5,7 @@ import (
 	"debug/dwarf"
 	"encoding/binary"
 
-	"github.com/derekparker/delve/pkg/dwarf/util"
+	"github.com/omie/delve/pkg/dwarf/util"
 )
 
 // Form represents a DWARF form kind (see Figure 20, page 160 and following,
