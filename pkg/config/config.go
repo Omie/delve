@@ -15,7 +15,7 @@ const (
 	configFile string = "config.yml"
 )
 
-// Describes a rule for substitution of path to source code file.
+// SubstitutePathRule describes a rule for substitution of path to source code file.
 type SubstitutePathRule struct {
 	// Directory path will be substituted if it matches `From`.
 	From string
@@ -23,7 +23,7 @@ type SubstitutePathRule struct {
 	To string
 }
 
-// Slice of source code path substitution rules.
+// SubstitutePathRules is a slice of source code path substitution rules.
 type SubstitutePathRules []SubstitutePathRule
 
 // Config defines all configuration options available to be set through the config file.
@@ -43,10 +43,14 @@ type Config struct {
 	// If ShowLocationExpr is true whatis will print the DWARF location
 	// expression for its argument.
 	ShowLocationExpr bool `yaml:"show-location-expr"`
-	
+
 	// Source list line-number color (3/4 bit color codes as defined
 	// here: https://en.wikipedia.org/wiki/ANSI_escape_code#Colors)
 	SourceListLineColor int `yaml:"source-list-line-color"`
+
+	// DebugFileDirectories is the list of directories Delve will use
+	// in order to resolve external debug info files.
+	DebugInfoDirectories []string `yaml:"debug-info-directories"`
 }
 
 // LoadConfig attempts to populate a Config object from the config.yml file.
@@ -93,6 +97,8 @@ func LoadConfig() *Config {
 	return &c
 }
 
+// SaveConfig will marshal and save the config struct
+// to disk.
 func SaveConfig(conf *Config) error {
 	fullConfigFile, err := GetConfigFilePath(configFile)
 	if err != nil {
@@ -117,11 +123,11 @@ func SaveConfig(conf *Config) error {
 func createDefaultConfig(path string) (*os.File, error) {
 	f, err := os.Create(path)
 	if err != nil {
-		return nil, fmt.Errorf("Unable to create config file: %v.", err)
+		return nil, fmt.Errorf("unable to create config file: %v", err)
 	}
 	err = writeDefaultConfig(f)
 	if err != nil {
-		return nil, fmt.Errorf("Unable to write default configuration: %v.", err)
+		return nil, fmt.Errorf("unable to write default configuration: %v", err)
 	}
 	return f, nil
 }
@@ -158,6 +164,9 @@ substitute-path:
 
 # Uncomment the following line to make the whatis command also print the DWARF location expression of its argument.
 # show-location-expr: true
+
+# List of directories to use when searching for separate debug info files.
+debug-info-directories: ["/usr/lib/debug/.build-id"]
 `)
 	return err
 }

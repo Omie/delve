@@ -180,7 +180,7 @@ func (v functionsDebugInfoByEntry) Swap(i, j int)      { v[i], v[j] = v[j], v[i]
 type compileUnitsByLowpc []*compileUnit
 
 func (v compileUnitsByLowpc) Len() int               { return len(v) }
-func (v compileUnitsByLowpc) Less(i int, j int) bool { return v[i].LowPC < v[j].LowPC }
+func (v compileUnitsByLowpc) Less(i int, j int) bool { return v[i].lowPC < v[j].lowPC }
 func (v compileUnitsByLowpc) Swap(i int, j int)      { v[i], v[j] = v[j], v[i] }
 
 type packageVarsByAddr []packageVar
@@ -230,18 +230,18 @@ outer:
 			if lang, _ := entry.Val(dwarf.AttrLanguage).(int64); lang == dwarfGoLanguage {
 				cu.isgo = true
 			}
-			cu.Name, _ = entry.Val(dwarf.AttrName).(string)
+			cu.name, _ = entry.Val(dwarf.AttrName).(string)
 			compdir, _ := entry.Val(dwarf.AttrCompDir).(string)
 			if compdir != "" {
-				cu.Name = filepath.Join(compdir, cu.Name)
+				cu.name = filepath.Join(compdir, cu.name)
 			}
-			cu.Ranges, _ = bi.dwarf.Ranges(entry)
-			for i := range cu.Ranges {
-				cu.Ranges[i][0] += bi.staticBase
-				cu.Ranges[i][1] += bi.staticBase
+			cu.ranges, _ = bi.dwarf.Ranges(entry)
+			for i := range cu.ranges {
+				cu.ranges[i][0] += bi.staticBase
+				cu.ranges[i][1] += bi.staticBase
 			}
-			if len(cu.Ranges) >= 1 {
-				cu.LowPC = cu.Ranges[0][0]
+			if len(cu.ranges) >= 1 {
+				cu.lowPC = cu.ranges[0][0]
 			}
 			lineInfoOffset, _ := entry.Val(dwarf.AttrStmtList).(int64)
 			if lineInfoOffset >= 0 && lineInfoOffset < int64(len(debugLineBytes)) {
@@ -578,7 +578,7 @@ func runtimeTypeToDIE(_type *Variable, dataAddr uintptr) (typ godwarf.Type, kind
 		if typestring == nil || typestring.Addr == 0 || typestring.Kind != reflect.String {
 			return nil, 0, fmt.Errorf("invalid interface type")
 		}
-		typestring.loadValue(LoadConfig{false, 0, 512, 0, 0})
+		typestring.loadValue(LoadConfig{false, 0, 512, 0, 0, 0})
 		if typestring.Unreadable != nil {
 			return nil, 0, fmt.Errorf("invalid interface type: %v", typestring.Unreadable)
 		}
@@ -880,7 +880,7 @@ func nameOfInterfaceRuntimeType(_type *Variable, kind, tflag int64) (string, err
 	buf.WriteString("interface {")
 
 	methods, _ := _type.structMember(interfacetypeFieldMhdr)
-	methods.loadArrayValues(0, LoadConfig{false, 1, 0, 4096, -1})
+	methods.loadArrayValues(0, LoadConfig{false, 1, 0, 4096, -1, 0})
 	if methods.Unreadable != nil {
 		return "", nil
 	}
@@ -941,7 +941,7 @@ func nameOfStructRuntimeType(_type *Variable, kind, tflag int64) (string, error)
 	buf.WriteString("struct {")
 
 	fields, _ := _type.structMember("fields")
-	fields.loadArrayValues(0, LoadConfig{false, 2, 0, 4096, -1})
+	fields.loadArrayValues(0, LoadConfig{false, 2, 0, 4096, -1, 0})
 	if fields.Unreadable != nil {
 		return "", fields.Unreadable
 	}
