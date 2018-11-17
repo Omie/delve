@@ -189,6 +189,19 @@ Called without arguments it will show information about the current goroutine.
 Called with a single argument it will switch to the specified goroutine.
 Called with more arguments it will execute a command on the specified goroutine.`},
 		{aliases: []string{"breakpoints", "bp"}, cmdFn: breakpoints, helpMsg: "Print out info for active breakpoints."},
+		{aliases: []string{"display"}, cmdFn: display, helpMsg: `automatic display expressions.
+
+	display [-a (add display expression)|-r (remove display expression)|-e (enable display expression)|-d (disable display expression)|-l (list display expressions)] [(id)]
+
+Set expressions that are to be automatically evaluated everytime debugger stops.
+
+	-a	<expr> adds expression to be evaluated
+	-r	<id> removes expression from the list
+	-e	<id> enable expression
+	-d	<id> disable expression
+	-l	display list of expressions
+
+If no flag is specified the default is -l.`},
 		{aliases: []string{"print", "p"}, allowedPrefixes: onPrefix | deferredPrefix, cmdFn: printVar, helpMsg: `Evaluate an expression.
 
 	[goroutine <n>] [frame <m>] print <expression>
@@ -2006,4 +2019,117 @@ func formatBreakpointLocation(bp *api.Breakpoint) string {
 		return fmt.Sprintf("%#v for %s() %s:%d", bp.Addr, bp.FunctionName, p, bp.Line)
 	}
 	return fmt.Sprintf("%#v for %s:%d", bp.Addr, p, bp.Line)
+}
+
+/* display command */
+
+type displayExpression struct {
+	Expr    string
+	Enabled bool
+}
+
+var displayExpressions = make([]*displayExpression, 0)
+
+func executeDisplay(t *Term, ctx callContext) error {
+	for id, expr := range displayExpressions {
+		if !expr.Enabled {
+			continue
+		}
+		val, err := t.client.EvalVariable(ctx.Scope, expr.Expr, t.loadConfig())
+		if err == nil {
+			fmt.Printf("Expression %2d %s = %s \n", id, expr.Expr, val.MultilineString(""))
+		}
+	}
+	return nil
+}
+
+func addDisplayExpression(args []string) error {
+	expr_str := strings.TrimSpace(strings.Join(args, " "))
+	if len(expr_str) == 0 {
+		return errors.New("invalid expression")
+	}
+	ex := &displayExpression{expr_str, true}
+	displayExpressions = append(displayExpressions, ex)
+	return nil
+}
+
+func removeDisplayExpression(strId string) error {
+	id, err := strconv.Atoi(strId)
+	if err != nil {
+		return errors.New("remove-display argument must be an expression ID")
+	}
+	if id >= len(displayExpressions) {
+		return errors.New("invalid id")
+	}
+	displayExpressions = append(displayExpressions[:id], displayExpressions[id+1:]...)
+	return nil
+}
+
+func enableDisplayExpression(strId string) error {
+	id, err := strconv.Atoi(strId)
+	if err != nil {
+		return errors.New("remove-display argument must be an expression ID")
+	}
+	if id >= len(displayExpressions) {
+		return errors.New("invalid id")
+	}
+	displayExpressions[id].Enabled = true
+	return nil
+}
+
+func disableDisplayExpression(strId string) error {
+	id, err := strconv.Atoi(strId)
+	if err != nil {
+		return errors.New("remove-display argument must be an expression ID")
+	}
+	if id >= len(displayExpressions) {
+		return errors.New("invalid id")
+	}
+	displayExpressions[id].Enabled = false
+	return nil
+}
+
+func listDisplayExpressions() error {
+	for id, expr := range displayExpressions {
+		statusText := "enabled"
+		if !expr.Enabled {
+			statusText = "disabled"
+		}
+		fmt.Printf("Expression %2d %s is %s\n", id, expr.Expr, statusText)
+	}
+	return nil
+}
+
+func display(t *Term, ctx callContext, argstr string) error {
+	if len(argstr) == 0 {
+		return executeDisplay(t, ctx)
+	}
+
+	args := strings.Split(argstr, " ")
+
+	if len(args) == 1 {
+		if args[0] == "-l" {
+			return listDisplayExpressions()
+		}
+		return fmt.Errorf("invalid arguments")
+	}
+
+	for _, arg := range args {
+		switch arg {
+		case "-a":
+			// note that we are passing all of the remaining arguments as
+			// expression
+			return addDisplayExpression(args[1:])
+		case "-r":
+			return removeDisplayExpression(args[1])
+		case "-e":
+			return enableDisplayExpression(args[1])
+		case "-d":
+			return disableDisplayExpression(args[1])
+		default:
+			// unlikely to reach here
+			return fmt.Errorf("wrong argument: '%s'", arg)
+		}
+	}
+	return nil
 }
